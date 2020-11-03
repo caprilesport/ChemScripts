@@ -1,4 +1,4 @@
-# JuliaChemScripts
+# ChemScripts
 
 [![Build Status](https://travis-ci.com/caprilesport/JuliaChemScripts.jl.svg?branch=master)](https://travis-ci.com/caprilesport/JuliaChemScripts.jl)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/caprilesport/JuliaChemScripts.jl?svg=true)](https://ci.appveyor.com/project/caprilesport/JuliaChemScripts-jl)

@@ -1,4 +1,4 @@
-name = "JuliaChemScripts"
+name = "ChemScripts"
 uuid = "7d5de4c4-fb45-48f4-8d3a-000295dbdee9"
 authors = ["Vinicius C Port"]
 version = "0.1.0"
