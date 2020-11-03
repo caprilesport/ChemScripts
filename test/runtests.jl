@@ -1,10 +1,7 @@
-include("../src/JuliaChemScripts.jl")
-import JuliaChemScripts
+import ChemScripts
 using Test
 
-println(ginp2xyz(2))
-
-@testset "JuliaChemScripts.jl" begin
-    # Write your tests here.
-    myf(2)
+@testset "ChemScripts.jl" begin
+    @test ginp2xyz("A") == "A"
+    @test ginp2xyz("A") == "A"
 end
