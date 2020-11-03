@@ -32,6 +32,7 @@ function dividexyz(inpfile,N)
 
     #Lets save the files
     for i in 1:length(inputs)
+
         #Drop the last 4 digits
         name = inpfile
         for j in 1:4
@@ -47,6 +48,7 @@ function dividexyz(inpfile,N)
         close(save_file)
 
     end
+
     #closing inpfile
     close(file)
-end
+end #function
