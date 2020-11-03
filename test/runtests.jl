@@ -2,6 +2,9 @@ import ChemScripts
 using Test
 
 @testset "ChemScripts.jl" begin
-    @test ginp2xyz("A") == "A"
-    @test ginp2xyz("A") == "A"
+    @test ChemScripts.ginp2xyz("A")
+    @test ChemScripts.ginp2xyz("A")
 end
+
+
+ChemScripts.ginp2xyz("A")
