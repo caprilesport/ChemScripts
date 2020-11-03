@@ -4,7 +4,6 @@ function ginp2xyz(ginp)
     This function transforms an input file (already loaded as an object)
     and outputs an xyz type file
     =#
-    println(ginp)
     return(ginp)
 end
 
