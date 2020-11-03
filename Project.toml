@@ -3,6 +3,9 @@ uuid = "7d5de4c4-fb45-48f4-8d3a-000295dbdee9"
 authors = ["Vinicius C Port"]
 version = "0.1.0"
 
+[deps]
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+
 [compat]
 julia = "1"
 

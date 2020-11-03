@@ -1,6 +1,6 @@
-using DelimitedFiles
-
 module ChemScripts
+
+using DelimitedFiles
 
 include("getxyz.jl")
 export ginp2xyz
