@@ -8,4 +8,4 @@
 
 Starting this project to study more julia, I will do scripts and functions to work with files from softwares such as Gaussian09(16), ORCA, XTB, AIMALL, etc.
 
-I am also learning with this project how to sync it with GitHub, so take it lightly
+I am also learning with this project how to sync it with GitHub through this tutorial: shorturl.at/vIY15, so take it lightly

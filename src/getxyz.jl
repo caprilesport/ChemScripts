@@ -13,5 +13,5 @@ function gout2xyz(gout)
     This function transforms an output file (already loaded as an object)
     and outputs an xyz type file
     =#
-    println(gout)
+    return(gout)
 end
