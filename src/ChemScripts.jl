@@ -3,13 +3,9 @@ module ChemScripts
 using DelimitedFiles
 
 include("getxyz.jl")
-export ginp2xyz
-export gout2xyz
-
 include("dividexyz.jl")
-export dividexyz
+include("geninp.jl")
 
-
-
+export ginp2xyz, gout2xyz, dividexyz, gen_g16inp, getcoords
 
 end # module
