@@ -1,15 +1,10 @@
 using DelimitedFiles
 
-fermi = ["%mem=64GB",
-        "%nprocshared=24",
-        "%CPU=0-23",
-        "%GPUCPU=0-1=0,13"]
-
 function getcoords(xyz)
         #get input data
         coords = []
         nr_atoms = parse(Int64,xyz[1])
-        nr_inputs = (length(xyz) - 2) / nr_atoms
+        nr_inputs = Int(length(xyz) / (nr_atoms + 2))
 
         #Loop to separate xyz blocks
         start = 3
@@ -23,7 +18,9 @@ function getcoords(xyz)
         return nr_atoms, nr_inputs, coords
 end #function
 
-function gen_g16inp(inpfile,multiplicity,keys,cluster="fermi",title="Default title",save="y" )
+function gen_g16inp(inpfile,multiplicity = "0 1",cluster = "fermi",keyss="# m062x def2SVP opt freq=noraman",title = "Default title",save = "y")
+
+
         if cluster == "fermi"
                 cluster = ["%mem=64GB",
                         "%nprocshared=24",
@@ -32,6 +29,8 @@ function gen_g16inp(inpfile,multiplicity,keys,cluster="fermi",title="Default tit
         elseif cluster == "letoc"
                 cluster = ["%mem=48GB",
                         "%nprocshared=40"]
+                end #if,else
+
         #=
         Transfroms a xyz file into a G16 input file
         =#
@@ -41,30 +40,38 @@ function gen_g16inp(inpfile,multiplicity,keys,cluster="fermi",title="Default tit
 
         #Define if 1 or more inputs and get the coordinates
         nr_atoms, nr_inputs, coords = getcoords(file_lines)
-        @show nr_inputs
+
         #creating the input
         if nr_inputs == 1
                 inputs = []
                 inputs = cluster
-
-                push!(inputs,keys,"",title,"",multiplicity)
+                push!(inputs,keyss,"",title,"",multiplicity)
                 inputs = vcat(inputs, coords[1])
                 push!(inputs, "")
 
+        # we divide in 1input or more in order to add the --Link1-- g16 requires
         else
                 inputs = []
-
-        end
+                for i in 1:nr_inputs
+                        if i == 1
+                                push!(inputs,cluster,[keyss],[""],[title],[""],[multiplicity],coords[i],[""])
+                        else
+                                push!(inputs,["--Link1--"],cluster,[keyss],[""],[title],[""],[multiplicity],coords[i],[""])
+                        end#if,else
+                end#for
+        end #if,else
 
         #save the file
         if save == "y"
                 save_name = inpfile[1:end-3]*"com"
                 save_file = open(save_name,"w")
-                writedlm(save_file,inputs)
+                for i in inputs
+                        writedlm(save_file,i)
+                end #for
                 close(save_file)
-        end
+        end #if
 
         close(file)
         close(save_file)
-        return inputs
+
 end #function
