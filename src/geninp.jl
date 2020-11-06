@@ -51,12 +51,13 @@ function gen_g16inp(inpfile,multiplicity = "0 1",cluster = "fermi",keyss="# m062
 
         # we divide in 1input or more in order to add the --Link1-- g16 requires
         else
+                filetitle = inpfile[1:end-4]
                 inputs = []
                 for i in 1:nr_inputs
                         if i == 1
-                                push!(inputs,cluster,[keyss],[""],[title],[""],[multiplicity],coords[i],[""])
+                                push!(inputs,cluster,[keyss],[""],[filetitle*" "*String(i)],[""],[multiplicity],coords[i],[""])
                         else
-                                push!(inputs,["--Link1--"],cluster,[keyss],[""],[title],[""],[multiplicity],coords[i],[""])
+                                push!(inputs,["--Link1--"],cluster,[filetitle*" "*String(i)],[""],[title],[""],[multiplicity],coords[i],[""])
                         end#if,else
                 end#for
         end #if,else
