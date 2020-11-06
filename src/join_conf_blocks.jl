@@ -28,7 +28,7 @@ function join_conf_blocks(save_file)
 
     for i in archives
         @show i
-        i_file = open(".\\test\\test_files\\"*i, "r")
+        i_file = open(i, "r")
         i_lines = readlines(i_file)
         writedlm(join_file, i_lines)
         close(i_file)
