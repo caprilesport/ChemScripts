@@ -19,8 +19,11 @@ function getcoords(xyz)
 end #function
 
 function gen_g16inp(inpfile,multiplicity = "0 1",cluster = "fermi",keyss="# m062x def2SVP opt freq=noraman",title = "Default title",save = "y")
+        #=
+        Transfroms a xyz file into a G16 input file
+        =#
 
-
+        #Defining the cluster
         if cluster == "fermi"
                 cluster = ["%mem=64GB",
                         "%nprocshared=24",
@@ -29,38 +32,26 @@ function gen_g16inp(inpfile,multiplicity = "0 1",cluster = "fermi",keyss="# m062
         elseif cluster == "letoc"
                 cluster = ["%mem=48GB",
                         "%nprocshared=40"]
-                end #if,else
+        end #if
 
-        #=
-        Transfroms a xyz file into a G16 input file
-        =#
         #reading the xyz file
         file = open(inpfile,"r")
         file_lines = readlines(file)
 
-        #Define if 1 or more inputs and get the coordinates
+        #Define if there are 1 or more inputs and get the coordinates
         nr_atoms, nr_inputs, coords = getcoords(file_lines)
 
         #creating the input
-        if nr_inputs == 1
-                inputs = []
-                inputs = cluster
-                push!(inputs,keyss,"",title,"",multiplicity)
-                inputs = vcat(inputs, coords[1])
-                push!(inputs, "")
-
-        # we divide in 1input or more in order to add the --Link1-- g16 requires
-        else
-                filetitle = inpfile[1:end-4]
-                inputs = []
-                for i in 1:nr_inputs
-                        if i == 1
-                                push!(inputs,cluster,[keyss],[""],[filetitle*" "*String(i)],[""],[multiplicity],coords[i],[""])
-                        else
-                                push!(inputs,["--Link1--"],cluster,[filetitle*" "*String(i)],[""],[title],[""],[multiplicity],coords[i],[""])
-                        end#if,else
-                end#for
-        end #if,else
+        # we divide in 1 input or more in order to add the --Link1-- g16 requires
+        filetitle = inpfile[1:end-4]
+        inputs = []
+        for i in 1:nr_inputs
+                if i == 1
+                        push!(inputs,cluster,[keyss],[""],[filetitle],[""],[multiplicity],coords[i],[""])
+                else
+                        push!(inputs,["--Link1--"],cluster,[keyss],[""],[title],[""],[multiplicity],coords[i],[""])
+                end#if
+        end#for
 
         #save the file
         if save == "y"

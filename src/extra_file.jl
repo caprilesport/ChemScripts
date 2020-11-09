@@ -2,7 +2,13 @@ using ChemScripts
 using BenchmarkTools
 const CS = ChemScripts
 
+fermi = ["%mem=64GB",
+        "%nprocshared=24",
+        "%CPU=0-23",
+        "%GPUCPU=0-1=0,13"]
 
-inpfile = "src/prod.xyz"
 
-gen_g16inp(inpfile,"0 1", "#b3lyp def2SVP opt freq=noraman")
+
+inpfile = "C:\\Users\\vinip\\.julia\\dev\\ChemScripts\\test\\test_files\\react_conformers.xyz"
+
+CS.dividexyz(inpfile, 20)
