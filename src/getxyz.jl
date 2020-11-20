@@ -65,6 +65,3 @@ function gout2xyz(gout)
 
     return(gout)
 end # function
-
-
-gout2xyz(inpfile)
