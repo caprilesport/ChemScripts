@@ -2,6 +2,7 @@ module ChemScripts
 
     using DelimitedFiles
     using DataFrames
+    using CSV
 
     include("getxyz.jl")
     include("dividexyz.jl")
