@@ -1,4 +1,6 @@
 using DelimitedFiles
+
+
 function dividexyz(inpfile,N=20)
     #=
     Divides n input xyz files toghether in N xyz file with n - (n % N )/N structures
