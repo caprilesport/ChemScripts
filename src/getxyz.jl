@@ -67,8 +67,4 @@ function gout2xyz(gout)
 end # function
 
 
-
-
-inpfile = "test\\test_files\\react_optimized_blocks.log"
-
 gout2xyz(inpfile)
