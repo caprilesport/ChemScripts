@@ -1,13 +1,12 @@
 using DelimitedFiles
 
-@doc raw"""
+"""
 Divides n input xyz files toghether in N xyz file with n - (n % N )/N structures
 in each one
 
 To divide in blocks of 10 an inpfile.xyz file
 Usage: dividexyz(inpfile.xyz, 10)
 """
-
 function dividexyz(inpfile,N=20)
     #Reading the file to an array
     file = open(inpfile, "r")

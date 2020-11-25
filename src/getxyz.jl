@@ -11,13 +11,10 @@ function ginp2xyz(ginp)
     return(ginp)
 end
 
-
+"""
+This function transforms an output .log file into a xyz type file
+"""
 function gout2xyz(gout)
-
-    @doc raw"""
-    This function transforms an output .log file into a xyz type file
-    """
-    
     # Open the .log file
     outfile = open(gout, "r")
     outfile_line = readlines(outfile)
