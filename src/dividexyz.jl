@@ -56,4 +56,3 @@ function dividexyz(inpfile,N=20)
     close(file)
 end #function
 
-?dividexyz
