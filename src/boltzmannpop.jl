@@ -21,7 +21,7 @@ function boltzmann(inpfile)
     
     # Store the name to save
     name = inpfile[1:end-4]
-    name_out = inpfile * "_boltzmann.csv"
+    name_out = name * "_boltzmann.csv"
 
     #Read the file
     df = CSV.read(inpfile, DataFrame)

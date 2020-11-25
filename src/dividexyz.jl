@@ -1,11 +1,14 @@
 using DelimitedFiles
 
+@doc raw"""
+Divides n input xyz files toghether in N xyz file with n - (n % N )/N structures
+in each one
+
+To divide in blocks of 10 an inpfile.xyz file
+Usage: dividexyz(inpfile.xyz, 10)
+"""
 
 function dividexyz(inpfile,N=20)
-    #=
-    Divides n input xyz files toghether in N xyz file with n - (n % N )/N structures
-    in each one
-    =#
     #Reading the file to an array
     file = open(inpfile, "r")
     inpxyz = readlines(file)
@@ -37,12 +40,10 @@ function dividexyz(inpfile,N=20)
 
         #Drop the last 4 digits
         name = inpfile
-        for j in 1:4
-            name = chop(name)
-        end
+        name = name[1:end-4]
 
         #Set the name
-        name = name * "_block_" * string(i) * ".xyz"
+        name = string(i) * "_" * name * ".xyz"
 
         #Save
         save_file = open(name, "w")
@@ -54,3 +55,5 @@ function dividexyz(inpfile,N=20)
     #closing inpfile
     close(file)
 end #function
+
+?dividexyz
