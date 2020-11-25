@@ -91,7 +91,3 @@ function gout2xyz(gout)
 
     
 end # function
-
-file = "test/test_files/react_optimized_blocks.log"
-
-gout2xyz(file)
