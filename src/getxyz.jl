@@ -1,20 +1,25 @@
 using DelimitedFiles 
 
 ### Functions that obtain a single or multiple xyz files
+"""
+This function transforms an input GAUSSIAN file
+into an xyz type file
+"""
 function ginp2xyz(ginp)
-    """
-    This function transforms an input GAUSSIAN file
-    into an xyz type file
-    """
-
-
     return(ginp)
 end
 
+
+
+
+
 """
-This function transforms an output .log file into a xyz type file
+This function transforms an output .log file into a .xyz file
+
+The file can have multiple calculations and it will retrieve all the geometries wich calculations finished normally
 """
 function gout2xyz(gout)
+    println("Input file = $gout \n")
     # Open the .log file
     outfile = open(gout, "r")
     outfile_line = readlines(outfile)
@@ -22,6 +27,7 @@ function gout2xyz(gout)
     # Open the save file 
     savename = gout[1:end-3]*"xyz"
     file = open(savename, "w")
+    println(".xyz file create = $savename")
 
     # These strings mark the information block in the end of a gaussian .log file 
     startinfo = "Unable to Open any file for archive entry."
@@ -60,7 +66,6 @@ function gout2xyz(gout)
         #Formatting
         for i in 2:length(geom)
             geom[i] = replace(geom[i], ","=>" ")
-            println(geom[i])
         end
         geom[1] = replace(geom[1], "," => " ")
         nr_atoms = length(geom) - 1
@@ -69,22 +74,13 @@ function gout2xyz(gout)
             push!(final_geom, i)
         end
 
-        #saving to the first array
-
-        push!(geom_block, final_geom)
+        #save
         writedlm(file, final_geom)
 
     end # for
 
-    # Save 
-
-    # writedlm(file, geom_block)
-
     # Close files
     close(outfile)
     close(file)
-
-    # @show geom_block
-
     
 end # function

@@ -1,20 +1,35 @@
 using DelimitedFiles 
+using CSV
+include("src/getxyz.jl")
 
+"""
+This function gets the energy and dipole of all the conformers in a log file
+and compares the energy of all of them in order to find duplicates
+
+Then, an .CSV file is created with all the nr of the structures, the energies and the 
+dipole moments of each one
+
+For all the unique conformers the boltzmann distribution is calculated and a file_boltzmann.csv is 
+created with the distribution, energy and so forth and so on
+
+It also generates a .xyz file with all the conformers the script found to be unique
+
+==== examples ====
+
+for the file molecule.log
+
+julia> ChemScripts.getenergy("molecule.log")
+
+A molecule.csv file will be created with all the conformers
+
+A molecule_boltzmann.csv file will be created with the boltzmann distribution
+
+A molecule.xyz file will be create with the structures of all the unique conformers
+
+========
+"""
 function getenergy(inpfile)
-
-    """
-
-    This function gets the energy and dipole of all the conformers in a log file,
-    and compares the energy of all of them in order to find duplicates
-
-    Then, an .CSV file is created with all the structures, the energies and the 
-    dipole moments of the structures
-
-    It would be a good ideia to already (from the .log file) obtain the inputs that are needed 
-    for the next calculations, this has to be done yet
-
-    """
-
+    println("Input file : $inpfile \n")
     # Open the file, read the lines and define the base name
     base_name = inpfile[1:end-4]
     file = open(inpfile, "r")
@@ -51,6 +66,7 @@ function getenergy(inpfile)
 
     #Saving into a csv table
     save_name = base_name * ".csv"
+    println("CSV file with all the structures, energies and dipoles : $save_name \n")
     save = open(save_name, "w")
     writedlm(save, arq_final)
 
@@ -102,17 +118,44 @@ function getenergy(inpfile)
     uniq_name = base_name * "_uniq.csv"
     uniq = open(uniq_name, "w")
     writedlm(uniq, arq_uniq)
+    println("Generated CSV file with all the unique conformers and the population distribution")
+
+    uniq_size = length(conf_nr)
+    origin_size = length(gibbs_energy)
+
+    println("A total of $uniq_size conformers from $origin_size structures were found to be unique")
+
+    ## Obtaining the .xyz file with all the geometries of the unique conformers
+
+    # Keyword to delimit beginning of each calculation 
+    startinfo = "Initial command"
+    endinfo = "Normal termination"
+    log_index = findall(x->occursin(startinfo,x), file_lines)
+    log_e = findall(x->occursin(endinfo,x), file_lines)
+ 
+
+    # Create a list with all the unique conformers .log part , the list of all the unique conformers is conf_nr
+    uniqs = []
+    for i in conf_nr 
+        log_temp = file_lines[log_index[i]:log_index[i+1]]
+        push!(uniqs, log_temp)
+    end
+
+    #temp file to make the xyz file 
+    temp_name = base_name * ".txt"
+    temp_file = open(temp_name, "w")
+    for i in uniqs
+        writedlm(temp_file, i)
+    end
+    close(temp_file)
+    gout2xyz(temp_name)
+    rm(temp_name)
 
     #close the files 
     close(uniq)
     close(file)
     close(save)
 
-    uniq_size = length(conf_nr)
-    origin_size = length(gibbs_energy)
-
-    println("A total of $uniq_size conformers from $origin_size structures were found to be unique")
-    
-    return arq_uniq
-
 end # function
+
+

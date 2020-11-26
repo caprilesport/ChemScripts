@@ -18,11 +18,31 @@ function getcoords(xyz)
         return nr_atoms, nr_inputs, coords
 end #function
 
-function gen_g16inp(inpfile,multiplicity = "0 1",cluster = "fermi",keyss="# m062x def2SVP opt freq=noraman",title = "Default title",save = "y")
-        #=
-        Transfroms a xyz file into a G16 input file
-        =#
 
+"""
+This functions receives an .xyz file and generates an G16 input .com file
+
+The file can have one or multiple geometries
+
+This function already has some default parameters, which is a single point calculation of a molecule of 
+multiplicity 1, charge 0 to be calculated in our fermi cluster 
+if you want to change you need to specify into
+
+The dafult parameters are: 
+
+gen_g16inp(inpfile, multiplicity = "0 1", cluster = "fermi", calc = "# m062x def2SVP opt freq=noraman", title = "Title")
+
+The only required parameter is a file 
+
+==== examples ====
+
+For a reagent.xyz file wiht keys : # opt freq=noraman B3LYP aug-cc-pvtz and the other default parameters
+
+gen_g16inp("reagent.xyz", calc="# opt freq=noraman B3LYP aug-cc-pvtz")
+
+========
+"""
+function gen_g16inp(inpfile, multiplicity = "0 1", cluster = "fermi", calc = "# m062x def2SVP", title = "Title")
         #Defining the cluster
         if cluster == "fermi"
                 cluster = ["%mem=64GB",
@@ -47,23 +67,21 @@ function gen_g16inp(inpfile,multiplicity = "0 1",cluster = "fermi",keyss="# m062
         inputs = []
         for i in 1:nr_inputs
                 if i == 1
-                        push!(inputs,cluster,[keyss],[""],[filetitle],[""],[multiplicity],coords[i],[""])
+                        push!(inputs,cluster,[calc],[""],[filetitle],[""],[multiplicity],coords[i],[""])
                 else
-                        push!(inputs,["--Link1--"],cluster,[keyss],[""],[title],[""],[multiplicity],coords[i],[""])
+                        push!(inputs,["--Link1--"],cluster,[calc],[""],[title],[""],[multiplicity],coords[i],[""])
                 end#if
         end#for
 
         #save the file
-        if save == "y"
-                save_name = inpfile[1:end-3]*"com"
-                save_file = open(save_name,"w")
-                for i in inputs
-                        writedlm(save_file,i)
-                end #for
-                close(save_file)
-        end #if
+        save_name = inpfile[1:end-3]*"com"
+        save_file = open(save_name,"w")
+        for i in inputs
+                writedlm(save_file,i)
+        end #for
 
-        close(file)
+        #close the files
         close(save_file)
+        close(file)
 
 end #function
