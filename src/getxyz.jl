@@ -1,22 +1,16 @@
 using DelimitedFiles 
 
-### Functions that obtain a single or multiple xyz files
-"""
-This function transforms an input GAUSSIAN file
-into an xyz type file
-"""
-function ginp2xyz(ginp)
-    return(ginp)
-end
+"""    
+This function receives an gaussian output .log file and
+returns a .xyz file of the final structure
 
+==== examples ====
+inputfile = "molecule.log"
 
+julia> ChemScripts.gout2xyz(inputfile)
 
-
-
-"""
-This function transforms an output .log file into a .xyz file
-
-The file can have multiple calculations and it will retrieve all the geometries wich calculations finished normally
+A molecule.xyz file will be created
+=======
 """
 function gout2xyz(gout)
     println("Input file = $gout \n")
