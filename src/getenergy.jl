@@ -1,6 +1,6 @@
 using DelimitedFiles 
 using CSV
-include("src/getxyz.jl")
+include("getxyz.jl")
 
 """
 This function gets the energy and dipole of all the conformers in a log file
